@@ -25,7 +25,6 @@ using System.Collections.Generic;
 public class SelectionManager : MonoBehaviour {
 	
 	GameObject dynamicControllersParent;
-	GameObject staticControllersParent;
 	public List<GameObject> dynamicControllers;
 	public int activeIndex;
 	private int lastActiveIndex;

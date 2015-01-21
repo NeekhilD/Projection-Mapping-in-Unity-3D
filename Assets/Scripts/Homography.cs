@@ -25,11 +25,7 @@ using System.Collections.Generic;
 public class Homography : MonoBehaviour {
 	
 	SelectionManager manager;
-    public float[] matrix = new float[16];
     private Material meshMaterial;
-    private Vector3[] source = new Vector3[4];
-    private Vector3[] destination = new Vector3[4];
-    private Matrix4x4 MVP = new Matrix4x4();
     public new Camera camera;
   
 	// Use this for initialization
@@ -38,22 +34,22 @@ public class Homography : MonoBehaviour {
         GameObject selectionManager = transform.parent.Find("Selection Manager").gameObject;
 		manager = selectionManager.GetComponent<SelectionManager>();
 
-        meshMaterial = gameObject.renderer.material;
+        meshMaterial = renderer.material;
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-        MVP = camera.projectionMatrix * camera.worldToCameraMatrix;
+        Matrix4x4 MVP = camera.projectionMatrix * camera.worldToCameraMatrix;
         
         if (manager.startHomography == true)
         {
-   
-			for (int i = 0; i <= 3; i++) {
+            List<Vector3> source = new List<Vector3>();
+            List<Vector3> destination = new List<Vector3>();
 
-                source[i] = MVP.MultiplyPoint(manager.dynamicControllers[i].GetComponent<DynamicController>().staticPoint);
-                destination[i] = MVP.MultiplyPoint(manager.dynamicControllers[i].transform.position);
+			foreach (GameObject dynamicController in manager.dynamicControllers) {
+                source.Add(MVP.MultiplyPoint(dynamicController.GetComponent<DynamicController>().staticPoint));
+                destination.Add(MVP.MultiplyPoint(dynamicController.transform.position));
             }
 
             Debug.Log("Source: " + source[0]);
@@ -65,6 +61,7 @@ public class Homography : MonoBehaviour {
             Debug.Log("Source3: " + source[3]);
             Debug.Log("Dest3: " + destination[3]);
 
+            float[] matrix = new float[16];
             FindHomography(ref source, ref destination, ref matrix);
          
             meshMaterial.SetVector("matrixRow_1", new Vector4(matrix[0], matrix[4], matrix[8], matrix[12]));
@@ -75,7 +72,7 @@ public class Homography : MonoBehaviour {
         }
 	}
 	
-	void FindHomography(ref Vector3[] src, ref Vector3[] dest, ref float[] homography) 
+	void FindHomography(ref List<Vector3> src, ref List<Vector3> dest, ref float[] homography) 
 	{
 		// originally by arturo castro - 08/01/2010  
 	    //  
@@ -121,7 +118,10 @@ public class Homography : MonoBehaviour {
 	        0      ,      0,0,0,       // 0    0   0 0  
 	        P[2,8],P[5,8],0,1};      // h13  h23 0 h33  
 	      
-	    for(int i=0;i<16;i++) homography[i] = aux_H[i];  
+        Matrix4x4 homographyMat = new Matrix4x4();
+        for (int i = 0; i < 16; i++) { homography[i] = aux_H[i]; homographyMat[i] = aux_H[i]; }
+
+        for (int i = 0; i < 4; i++) Debug.Log(homographyMat.MultiplyPoint(src[i]));
 		
 	}
 

@@ -43,7 +43,6 @@ public class DynamicController : MonoBehaviour {
 	void OnMouseDown(){
 		
 		//Assign current controller index to selectionManager.activeIndex
-		string name = gameObject.name;
 		manager.indexChanged = true;
 		manager.activeIndex =  index;
 		
