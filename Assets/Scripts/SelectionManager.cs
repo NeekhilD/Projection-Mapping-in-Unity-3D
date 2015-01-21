@@ -26,7 +26,6 @@ public class SelectionManager : MonoBehaviour {
 	
 	GameObject dynamicControllersParent;
 	GameObject staticControllersParent;
-	public List<GameObject> staticControllers;
 	public List<GameObject> dynamicControllers;
 	public int activeIndex;
 	private int lastActiveIndex;
@@ -36,12 +35,10 @@ public class SelectionManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-	
-		dynamicControllersParent = GameObject.Find("DynamicControllers");
-		staticControllersParent = GameObject.Find("StaticControllers");
+
+        dynamicControllersParent = transform.parent.Find("DynamicControllers").gameObject;
 		
 		//Define Lists
-		staticControllers = new List<GameObject>();
 		dynamicControllers = new List<GameObject>();
 		
 		//intiate activeIndex
@@ -54,13 +51,7 @@ public class SelectionManager : MonoBehaviour {
 		
 		startHomography = true;
 		
-		
-		//Turn off visibility of static controllers
-		foreach(Transform child in staticControllersParent.transform){
-			staticControllers.Add(child.gameObject);
-			child.renderer.enabled = false;
-		}	
-		
+
 		//Change the colour of the dynamic controllers and add the DynamicController Script as a Component
 		foreach(Transform child in dynamicControllersParent.transform){
 			dynamicControllers.Add (child.gameObject);

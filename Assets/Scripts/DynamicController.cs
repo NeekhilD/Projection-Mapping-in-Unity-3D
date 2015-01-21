@@ -27,13 +27,15 @@ public class DynamicController : MonoBehaviour {
 	SelectionManager manager;
 	private Vector3 screenPoint;
 	private Vector3 offset;
-	
+    public Vector3 staticPoint;
+
 	void Start(){
-		
-		GameObject selectionManager = GameObject.Find("Selection Manager");
+
+        GameObject selectionManager = transform.parent.parent.Find("Selection Manager").gameObject;
 		manager = selectionManager.GetComponent<SelectionManager>();
 		Debug.Log("Copyright (C) 2011,2012 Chirag Raman.");
 		Debug.Log("This project is licensed under the GPL. For details refer to the file COPYING with this project.");
+        staticPoint = gameObject.transform.position;
 		
 	}
 

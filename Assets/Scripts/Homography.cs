@@ -30,27 +30,29 @@ public class Homography : MonoBehaviour {
     private Vector3[] source = new Vector3[4];
     private Vector3[] destination = new Vector3[4];
     private Matrix4x4 MVP = new Matrix4x4();
-    public Camera camera;
+    public new Camera camera;
   
 	// Use this for initialization
 	void Start () {
-	
-		GameObject selectionManager = GameObject.Find("Selection Manager");
+
+        GameObject selectionManager = transform.parent.Find("Selection Manager").gameObject;
 		manager = selectionManager.GetComponent<SelectionManager>();
 
-        MVP = camera.projectionMatrix * camera.worldToCameraMatrix; 
-        meshMaterial = GameObject.Find("Cube").renderer.material;
+        meshMaterial = gameObject.renderer.material;
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-        if(manager.startHomography == true){
+
+        MVP = camera.projectionMatrix * camera.worldToCameraMatrix;
+        
+        if (manager.startHomography == true)
+        {
    
 			for (int i = 0; i <= 3; i++) {
 
-                source[i] = MVP.MultiplyPoint(manager.staticControllers[i].transform.position);
+                source[i] = MVP.MultiplyPoint(manager.dynamicControllers[i].GetComponent<DynamicController>().staticPoint);
                 destination[i] = MVP.MultiplyPoint(manager.dynamicControllers[i].transform.position);
             }
 
