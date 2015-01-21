@@ -51,11 +51,12 @@ public class SelectionManager : MonoBehaviour {
 		
 		startHomography = true;
 		
-
+        int indexCount = 0;
 		//Change the colour of the dynamic controllers and add the DynamicController Script as a Component
 		foreach(Transform child in dynamicControllersParent.transform){
 			dynamicControllers.Add (child.gameObject);
 			child.gameObject.AddComponent<DynamicController>();
+            child.gameObject.GetComponent<DynamicController>().index = indexCount++;
 			child.renderer.material.color = Color.red;
 		}
 		

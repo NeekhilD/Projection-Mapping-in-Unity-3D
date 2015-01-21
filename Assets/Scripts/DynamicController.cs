@@ -28,6 +28,7 @@ public class DynamicController : MonoBehaviour {
 	private Vector3 screenPoint;
 	private Vector3 offset;
     public Vector3 staticPoint;
+    public int index;
 
 	void Start(){
 
@@ -44,7 +45,7 @@ public class DynamicController : MonoBehaviour {
 		//Assign current controller index to selectionManager.activeIndex
 		string name = gameObject.name;
 		manager.indexChanged = true;
-		manager.activeIndex =  int.Parse(name[13].ToString()) - 1;
+		manager.activeIndex =  index;
 		
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
     	offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
