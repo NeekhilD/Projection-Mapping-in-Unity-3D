@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persons>
+    <person id="1">
+        <name><![CDATA[John]]></name>
+        <age>23</age>
+        <married>true</married>
+    </person>
+    <person id="2">
+        <name><![CDATA[Bob]]></name>
+        <age>32</age>
+        <married>true</married>
+    </person>
+</persons>
